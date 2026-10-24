@@ -342,6 +342,25 @@
 
     .pensamento-texto.saindo { opacity: 0; }
 
+    .pensamento-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      width: 100%;
+      transition: opacity 0.4s ease;
+    }
+
+    .pensamento-conteudo.saindo { opacity: 0; }
+
+    .pensamento-img {
+      max-width: 100%;
+      max-height: 60vh;
+      object-fit: contain;
+      border-radius: 12px;
+      opacity: 0.92;
+    }
+
     .pensamento-nav {
       display: flex;
       align-items: center;
@@ -421,7 +440,10 @@
 
     <div class="pensamentos-box" id="pensamentos-box">
       <div class="pensamento-card">
-        <p class="pensamento-texto" id="pensamento-texto"></p>
+        <div class="pensamento-conteudo" id="pensamento-conteudo">
+          <img class="pensamento-img" id="pensamento-img" alt="" hidden />
+          <p class="pensamento-texto" id="pensamento-texto"></p>
+        </div>
         <span class="pensamento-data" id="pensamento-data"></span>
       </div>
       <div class="pensamento-nav">
@@ -496,8 +518,11 @@
   // =======================================================
   // ✏️  EDITE SEUS PENSAMENTOS AQUI
   //
-  // Cada linha entre aspas é um pensamento.
-  // Separe com vírgula. Adicione quantos quiser.
+  // Cada bloco { } é um pensamento. Separe com vírgula.
+  //   texto:  o que aparece (use \n para quebrar linha)
+  //   data:   "AAAA-MM-DDTHH:MM:SS" — define a ordem (mais recente primeiro)
+  //   imagem: (opcional) nome de uma foto que está na pasta
+  // Pode ter só texto, só imagem, ou os dois.
   // =======================================================
 
   const PENSAMENTOS = {
@@ -557,6 +582,8 @@
     const choiceBtns  = document.getElementById('choice-btns');
     const pensBox     = document.getElementById('pensamentos-box');
     const pensTexto   = document.getElementById('pensamento-texto');
+    const pensImg     = document.getElementById('pensamento-img');
+    const pensConteudo = document.getElementById('pensamento-conteudo');
     const pensData    = document.getElementById('pensamento-data');
     const pensCounter = document.getElementById('pensamento-counter');
 
@@ -756,16 +783,27 @@
 
       const item = PENSAMENTOS.textos[pensIndex];
 
+      const renderizar = () => {
+        if (item.imagem) {
+          pensImg.src = item.imagem;
+          pensImg.hidden = false;
+        } else {
+          pensImg.removeAttribute('src');
+          pensImg.hidden = true;
+        }
+        pensTexto.innerHTML = (item.texto || '').replace(/\n/g, '<br>');
+        pensTexto.hidden = !item.texto;
+        pensData.textContent = formatarData(item.data);
+      };
+
       if (animar) {
-        pensTexto.classList.add('saindo');
+        pensConteudo.classList.add('saindo');
         setTimeout(() => {
-          pensTexto.innerHTML = item.texto.replace(/\n/g, '<br>');
-          pensData.textContent = formatarData(item.data);
-          pensTexto.classList.remove('saindo');
+          renderizar();
+          pensConteudo.classList.remove('saindo');
         }, 400);
       } else {
-        pensTexto.innerHTML = item.texto.replace(/\n/g, '<br>');
-        pensData.textContent = formatarData(item.data);
+        renderizar();
       }
     }
 

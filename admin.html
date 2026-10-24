@@ -119,7 +119,7 @@
       Marque só este repositório e dê permissão <b>Contents: Read and write</b>. Fica salvo apenas neste navegador.
     </p>
     <label>Repositório (dono/nome)
-      <input id="cfg-repo" placeholder="mensagens-de-amor/Carta" />
+      <input id="cfg-repo" placeholder="jlperner/Mensagem_amor" />
     </label>
     <label>Branch
       <input id="cfg-branch" placeholder="main" />
@@ -135,7 +135,7 @@
 // ───────────── Config ─────────────
 const CFG_KEY = 'love_admin_cfg';
 const cfg = Object.assign(
-  { token: '', repo: 'mensagens-de-amor/Carta', branch: 'main' },
+  { token: '', repo: 'jlperner/Mensagem_amor', branch: 'main' },
   JSON.parse(localStorage.getItem(CFG_KEY) || '{}')
 );
 const $ = id => document.getElementById(id);

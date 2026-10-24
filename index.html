@@ -3,12 +3,60 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>O que é o amor?</title>
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Para Você ❤️</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* Tela de entrada */
+    #entrada {
+      position: fixed;
+      inset: 0;
+      background: #0a0a0a;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      transition: opacity 0.8s ease;
+    }
+
+    #entrada.saindo {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .entrada-coracao {
+      font-size: 3.5rem;
+      animation: heartbeat 1.8s ease-in-out infinite;
+    }
+
+    .entrada-texto {
+      text-align: center;
+      font-size: 1.1rem;
+      color: rgba(245, 230, 211, 0.6);
+      letter-spacing: 0.08em;
+      line-height: 1.8;
+    }
+
+    .entrada-btn {
+      background: none;
+      border: 1.5px solid rgba(220, 120, 120, 0.6);
+      color: #f5e6d3;
+      font-family: 'Georgia', serif;
+      font-size: 1.05rem;
+      padding: 0.9rem 2.5rem;
+      border-radius: 50px;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: all 0.3s ease;
+      animation: pulse-border 2s ease-in-out infinite;
+    }
+
+    .entrada-btn:hover {
+      background: rgba(220, 120, 120, 0.15);
+      border-color: #dc7878;
     }
 
     body {
@@ -24,7 +72,6 @@
       overflow-x: hidden;
     }
 
-    /* Partículas de fundo */
     .particles {
       position: fixed;
       top: 0; left: 0;
@@ -36,15 +83,13 @@
 
     .particle {
       position: absolute;
-      width: 4px;
-      height: 4px;
-      background: rgba(220, 120, 120, 0.4);
       border-radius: 50%;
+      background: rgba(220, 120, 120, 0.4);
       animation: float linear infinite;
     }
 
     @keyframes float {
-      0%   { transform: translateY(110vh) translateX(0); opacity: 0; }
+      0%   { transform: translateY(110vh); opacity: 0; }
       10%  { opacity: 1; }
       90%  { opacity: 1; }
       100% { transform: translateY(-10vh) translateX(30px); opacity: 0; }
@@ -58,102 +103,15 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 2.5rem;
+      gap: 2rem;
     }
 
-    /* Botão de música */
-    #music-btn {
-      margin-top: 1.5rem;
-      background: none;
-      border: 2px solid rgba(220, 120, 120, 0.6);
-      color: #f5e6d3;
-      font-family: 'Georgia', serif;
-      font-size: 1.1rem;
-      padding: 1rem 2.2rem;
-      border-radius: 50px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-      transition: all 0.3s ease;
-      letter-spacing: 0.03em;
-    }
-
-    #music-btn:hover {
-      background: rgba(220, 120, 120, 0.15);
-      border-color: rgba(220, 120, 120, 0.9);
-      transform: scale(1.03);
-    }
-
-    #music-btn.playing {
-      background: rgba(220, 120, 120, 0.2);
-      border-color: #dc7878;
-      animation: pulse-border 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse-border {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(220, 120, 120, 0.3); }
-      50%       { box-shadow: 0 0 0 8px rgba(220, 120, 120, 0); }
-    }
-
-    .btn-icon {
-      font-size: 1.3rem;
-      transition: transform 0.3s;
-    }
-
-    #music-btn.playing .btn-icon {
-      animation: spin-slow 3s linear infinite;
-    }
-
-    @keyframes spin-slow {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
-    /* Carta */
-    .letter {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(220, 120, 120, 0.15);
-      border-radius: 16px;
-      padding: 2.5rem 2rem;
-      line-height: 1.9;
-      font-size: 1.05rem;
-      text-align: left;
-      color: #e8d5c0;
-      backdrop-filter: blur(4px);
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-
-    .letter.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .letter p {
-      margin-bottom: 1.2rem;
-    }
-
-    .letter p:last-child {
-      margin-bottom: 0;
-    }
-
-    .letter .assinatura {
-      margin-top: 2rem;
-      text-align: right;
-      font-style: italic;
-      color: rgba(220, 120, 120, 0.9);
-      font-size: 1rem;
-    }
-
-    /* Coração central */
     .heart-title {
       font-size: 2.8rem;
       text-align: center;
-      color: rgba(220, 120, 120, 0.85);
       animation: heartbeat 1.8s ease-in-out infinite;
       user-select: none;
+      margin-top: 1rem;
     }
 
     @keyframes heartbeat {
@@ -172,15 +130,12 @@
       text-transform: uppercase;
     }
 
+    /* Botões de escolha */
     .choice-btns {
-      display: none;
+      display: flex;
       gap: 1rem;
       justify-content: center;
       flex-wrap: wrap;
-    }
-
-    .choice-btns.visible {
-      display: flex;
     }
 
     .choice-btn {
@@ -207,89 +162,490 @@
       background: rgba(220, 120, 120, 0.15);
     }
 
-    .carta-nome {
-      font-style: italic;
-      font-size: 1.3rem;
-      color: rgba(220, 120, 120, 0.85);
-      margin-bottom: 1.5rem !important;
+    /* Botão de música */
+    .btn-rapidinhas {
+      background: linear-gradient(135deg, rgba(180,80,80,0.25), rgba(100,60,100,0.3));
+      border: 1.5px solid rgba(220, 120, 120, 0.7);
+      color: #f5e6d3;
+      font-family: 'Georgia', serif;
+      font-size: 1.05rem;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      letter-spacing: 0.05em;
+      box-shadow: 0 0 18px rgba(220, 120, 120, 0.15);
     }
 
-    .assinatura-j {
-      margin-top: 1.5rem;
-      font-style: italic;
-      font-size: 1.4rem;
-      color: rgba(220, 120, 120, 0.85);
-      text-align: right;
+    .btn-rapidinhas:hover {
+      background: linear-gradient(135deg, rgba(180,80,80,0.4), rgba(100,60,100,0.45));
+      box-shadow: 0 0 25px rgba(220, 120, 120, 0.3);
+      transform: scale(1.03);
     }
+
+    .btn-rapidinhas.active {
+      border-color: #dc7878;
+      box-shadow: 0 0 30px rgba(220, 120, 120, 0.4);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #dc7878;
+      color: white;
+      font-family: sans-serif;
+      font-size: 0.7rem;
+      font-weight: bold;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+      animation: pulse-badge 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-badge {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.2); }
+    }
+
+    #music-btn {
+      display: none;
+      background: none;
+      border: 2px solid rgba(220, 120, 120, 0.6);
+      color: #f5e6d3;
+      font-family: 'Georgia', serif;
+      font-size: 1.1rem;
+      padding: 1rem 2.2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      align-items: center;
+      gap: 0.7rem;
+      transition: all 0.3s ease;
+    }
+
+    #music-btn:hover { background: rgba(220, 120, 120, 0.15); }
+
+    #music-btn.playing {
+      background: rgba(220, 120, 120, 0.2);
+      border-color: #dc7878;
+      animation: pulse-border 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-border {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(220, 120, 120, 0.3); }
+      50%       { box-shadow: 0 0 0 8px rgba(220, 120, 120, 0); }
+    }
+
+    .btn-icon { font-size: 1.3rem; }
+
+    #music-erro {
+      display: none;
+      font-size: 0.8rem;
+      color: rgba(220, 120, 120, 0.7);
+      text-align: center;
+    }
+
+    #music-btn.playing .btn-icon {
+      animation: spin-slow 3s linear infinite;
+    }
+
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* Carta de texto/imagem */
+    .letter {
+      display: none;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(220, 120, 120, 0.15);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      line-height: 1.9;
+      font-size: 1.05rem;
+      text-align: left;
+      color: #e8d5c0;
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      width: 100%;
+    }
+
+    .letter.visible { opacity: 1; transform: translateY(0); }
+    .letter p { margin-bottom: 1.2rem; }
+    .letter p:last-child { margin-bottom: 0; }
 
     .carta-img {
       width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
       border-radius: 12px;
       opacity: 0.92;
+    }
+
+
+    /* ── Pensamentos ── */
+    .pensamentos-box {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      width: 100%;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .pensamentos-box.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .pensamento-card {
+      width: 100%;
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(180,80,80,0.08), rgba(100,60,100,0.12));
+      border: 1px solid rgba(220, 120, 120, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pensamento-card::before {
+      content: '"';
+      position: absolute;
+      top: -10px;
+      left: 16px;
+      font-size: 8rem;
+      color: rgba(220, 120, 120, 0.08);
+      font-family: Georgia, serif;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .pensamento-texto {
+      font-size: 1.25rem;
+      line-height: 1.75;
+      text-align: center;
+      color: #f0ddd0;
+      font-style: italic;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+
+    .pensamento-texto.saindo { opacity: 0; }
+
+    .pensamento-nav {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-btn {
+      background: none;
+      border: 1px solid rgba(220, 120, 120, 0.3);
+      color: rgba(245, 230, 211, 0.6);
+      font-size: 1.3rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-btn:hover {
+      border-color: #dc7878;
+      color: #f5e6d3;
+      background: rgba(220, 120, 120, 0.1);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.2;
+      cursor: default;
+    }
+
+    .pensamento-data {
+      position: absolute;
+      bottom: 0.8rem;
+      right: 1.2rem;
+      font-size: 0.75rem;
+      color: rgba(220, 120, 120, 0.5);
+      font-style: italic;
+      letter-spacing: 0.05em;
+    }
+
+    .pensamento-counter {
+      font-size: 0.85rem;
+      color: rgba(245, 230, 211, 0.35);
+      letter-spacing: 0.1em;
+      min-width: 50px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <!-- Partículas -->
+  <!-- Tela de entrada -->
+  <div id="entrada">
+    <div class="entrada-coracao">❤️</div>
+    <p class="entrada-texto">Tem uma mensagem<br>esperando por você</p>
+    <button class="entrada-btn" onclick="entrar()">Abrir ❤️</button>
+  </div>
+
   <div class="particles" id="particles"></div>
 
   <div class="content">
     <div class="heart-title">❤️</div>
     <p class="subtitle">Para você</p>
 
+    <div id="btn-rapidinhas-wrap"></div>
+    <div class="choice-btns" id="choice-btns"></div>
+
     <button id="music-btn" onclick="toggleMusic()">
       <span class="btn-icon">🎵</span>
-      <span id="btn-text">Tocar Música</span>
+      <span id="btn-text">Pausar</span>
     </button>
+    <p id="music-erro">Não consegui carregar a música 🎵</p>
 
-    <div class="choice-btns" id="choice-btns">
-      <button class="choice-btn active" onclick="showLetter(0, this)">O que é o amor?</button>
-      <button class="choice-btn" onclick="showLetter(1, this)">Paixão</button>
-    </div>
+    <div class="letter" id="letter"></div>
 
-    <div class="letter" id="letter">
-
-      <!-- CARTA 1 -->
-      <div class="letter-content" id="carta-0">
-        <p>Um dia você está em um ambiente e algo te incomoda. Te deixa desconfortável, mas de um jeito gostoso. Você começa a arranjar desculpas para estar lá e percebe que o seu dia já não é o mesmo quando não segue esse roteiro.</p>
-        <p>Algo acontece, mas você não percebe.</p>
-        <p>Os dias passam e a sintonia aumenta. De repente, um simples meme desencadeia uma onda de desejo e loucura. No início parece apenas uma fase passageira, um momento. Mas aquilo se transforma em cumplicidade, amizade e um fogo que, por vezes, parece quase incontrolável.</p>
-        <p>É verdade que desencontros aconteceram. Uma breve ruptura pareceu durar uma eternidade. Os dias transcorrem, mas talvez o que existe entre nós já venha de muito antes. Coisas assim não acontecem ao acaso. Almas se encontram... e, às vezes, se reencontram.</p>
-        <p>E quando isso acontece, tudo parece voltar com ainda mais força: proteção, carinho, cumplicidade.</p>
-        <p>Mas o que isso quer dizer?</p>
-        <p>Uma amizade forte?<br>Um gostar intenso?<br>Um desejo constante de estar junto em todos os momentos?</p>
-        <p>Eu gosto de pensar que o que temos é uma partilha. Compartilhamos alegrias, desejos, vontades, angústias e tristezas. Até nossas histórias possuem semelhanças que às vezes parecem coincidências impossíveis.</p>
-        <p>Mas, ainda assim, o que isso significa?</p>
-        <p>Percebi que, antes de fazer algo, penso na sua aprovação. Incluo você nos meus projetos. Tento tornar a sua jornada mais leve. Percebi que me preocupo quando terminamos de conversar e não sei se você chegou bem. Penso no que posso fazer para te proteger.</p>
-        <p>Ao mesmo tempo, me preocupo em não ser invasivo, em não ultrapassar limites. Talvez eu seja intenso e apaixonado demais. E sei que corro o risco de que a reciprocidade não seja exatamente a mesma.</p>
-        <p>Durante muito tempo acreditei que nunca encontraria alguém com pensamentos tão parecidos com os meus.</p>
-        <p>Mas encontrei você.</p>
-        <p>Você conhece meus segredos mais profundos. É a pessoa com quem dou risada por causa do seu humor rápido e ácido. É alguém cuja inteligência admiro profundamente. Vejo em você um ser humano capaz de realizar coisas incríveis, alguém que, aos poucos, tento ajudar a enxergar toda a sua própria força.</p>
-        <p>Espero estar à altura de acompanhar você nesta vida louca que vivemos, ajudando no que for necessário para seguirmos em frente.</p>
-        <p>Ah... e sobre a pergunta do início...</p>
-        <p><em>O que é o amor?</em></p>
-        <p>Eu não sei responder.</p>
-        <p>Mas sei que qualquer definição que exista não chega nem perto do que eu sinto por você.</p>
+    <div class="pensamentos-box" id="pensamentos-box">
+      <div class="pensamento-card">
+        <p class="pensamento-texto" id="pensamento-texto"></p>
+        <span class="pensamento-data" id="pensamento-data"></span>
       </div>
-
-      <!-- CARTA 2 -->
-      <div class="letter-content" id="carta-1" style="display:none">
-        <img src="photo_2026-06-02_23-41-14.jpg" alt="Paixão" class="carta-img" />
+      <div class="pensamento-nav">
+        <button class="nav-btn" id="btn-prev" onclick="navegarPensamento(-1)">←</button>
+        <span class="pensamento-counter" id="pensamento-counter"></span>
+        <button class="nav-btn" id="btn-next" onclick="navegarPensamento(1)">→</button>
       </div>
-
     </div>
   </div>
 
-  <audio id="audio1" loop>
-    <source src="Dashdot Maxximal Ashibah - Make It Better Pseudo Video ft. Ashib.mp3" type="audio/mpeg" />
-  </audio>
-  <audio id="audio2" loop>
-    <source src="Goo Goo Dolls Iris Official Music Video 4K Remaster.mp3" type="audio/mpeg" />
-  </audio>
-
   <script>
-    // Gera partículas
+  // =======================================================
+  // ✏️  EDITE SUAS CARTAS AQUI
+  // =======================================================
+
+  const CARTAS = [
+
+    {
+      nome: "O que é o amor?",
+      musica: "Dashdot Maxximal Ashibah - Make It Better Pseudo Video ft. Ashib.mp3",
+      texto: `
+        Um dia você está em um ambiente e algo te incomoda. Te deixa desconfortável, mas de um jeito gostoso. Você começa a arranjar desculpas para estar lá e percebe que o seu dia já não é o mesmo quando não segue esse roteiro.
+
+        Algo acontece, mas você não percebe.
+
+        Os dias passam e a sintonia aumenta. De repente, um simples meme desencadeia uma onda de desejo e loucura. No início parece apenas uma fase passageira, um momento. Mas aquilo se transforma em cumplicidade, amizade e um fogo que, por vezes, parece quase incontrolável.
+
+        É verdade que desencontros aconteceram. Uma breve ruptura pareceu durar uma eternidade. Os dias transcorrem, mas talvez o que existe entre nós já venha de muito antes. Coisas assim não acontecem ao acaso. Almas se encontram... e, às vezes, se reencontram.
+
+        E quando isso acontece, tudo parece voltar com ainda mais força: proteção, carinho, cumplicidade.
+
+        Mas o que isso quer dizer?
+
+        Uma amizade forte?
+        Um gostar intenso?
+        Um desejo constante de estar junto em todos os momentos?
+
+        Eu gosto de pensar que o que temos é uma partilha. Compartilhamos alegrias, desejos, vontades, angústias e tristezas. Até nossas histórias possuem semelhanças que às vezes parecem coincidências impossíveis.
+
+        Mas, ainda assim, o que isso significa?
+
+        Percebi que, antes de fazer algo, penso na sua aprovação. Incluo você nos meus projetos. Tento tornar a sua jornada mais leve. Percebi que me preocupo quando terminamos de conversar e não sei se você chegou bem. Penso no que posso fazer para te proteger.
+
+        Ao mesmo tempo, me preocupo em não ser invasivo, em não ultrapassar limites. Talvez eu seja intenso e apaixonado demais. E sei que corro o risco de que a reciprocidade não seja exatamente a mesma.
+
+        Durante muito tempo acreditei que nunca encontraria alguém com pensamentos tão parecidos com os meus.
+
+        Mas encontrei você.
+
+        Você conhece meus segredos mais profundos. É a pessoa com quem dou risada por causa do seu humor rápido e ácido. É alguém cuja inteligência admiro profundamente. Vejo em você um ser humano capaz de realizar coisas incríveis, alguém que, aos poucos, tento ajudar a enxergar toda a sua própria força.
+
+        Espero estar à altura de acompanhar você nesta vida louca que vivemos, ajudando no que for necessário para seguirmos em frente.
+
+        Ah... e sobre a pergunta do início...
+
+        O que é o amor?
+
+        Eu não sei responder.
+
+        Mas sei que qualquer definição que exista não chega nem perto do que eu sinto por você.
+      `
+    },
+
+    {
+      nome: "Paixão",
+      musica: "Goo Goo Dolls Iris Official Music Video 4K Remaster.mp3",
+      imagem: "photo_2026-06-02_23-41-14.jpg"
+    }
+
+  ];
+
+  // =======================================================
+  // ✏️  EDITE SEUS PENSAMENTOS AQUI
+  //
+  // Cada linha entre aspas é um pensamento.
+  // Separe com vírgula. Adicione quantos quiser.
+  // =======================================================
+
+  const PENSAMENTOS = {
+    textos: [
+      {
+        texto: "Eu sempre vou ficar e escolher você.",
+        data: "2026-06-10T17:00:00"
+      },
+      {
+        texto: "Quero te fazer tão feliz a ponto de você não conseguir parar de sorrir. E quero te fazer sentir muito amada, pra você não duvidar de nada nem por um segundo. E conforme vou descobrindo coisas novas sobre você, quero provar o quanto eu te acho incrível. ❤️",
+        data: "2026-06-14T18:38:00"
+      },
+      {
+        texto: "Mesmo nos dias difíceis, lembre-se: sua força, sua dedicação e seu coração fazem de você alguém verdadeiramente incrível.",
+        data: "2026-06-14T18:44:48"
+      },
+      {
+        texto: "Nunca permita que um momento difícil faça você esquecer quem você é.",
+        data: "2026-06-14T18:50:09"
+      },
+      {
+        texto: "Vou continuar me apaixonando por você todos os dias, porque não consigo evitar sorrir quando penso em você, porque ao olhar para você confirmo que você é tudo o que eu quero na minha vida. ❤️",
+        data: "2026-06-15T16:17:20"
+      },
+      {
+        texto: "Eu te ouviria por horas,\nmesmo em silêncio.\nSe algum dia o mundo te pesar, saiba que meu colo,\nmeu coração e meu tempo\nsempre vão estar aqui\npara você!",
+        data: "2026-06-12T21:00:00"
+      }
+    ]
+  };
+
+  // =======================================================
+  // ✏️  PLAYLIST — músicas que tocam aleatoriamente
+  //
+  // Liste aqui todos os arquivos MP3 que estão na pasta.
+  // O sistema embaralha e toca um por um automaticamente.
+  // =======================================================
+
+  const PLAYLIST = [
+    "Dashdot Maxximal Ashibah - Make It Better Pseudo Video ft. Ashib.mp3",
+    "Goo Goo Dolls Iris Official Music Video 4K Remaster.mp3",
+    "Chris de burgh - lady in red HQ.mp3",
+    "Creed - One Last Breath Official HD Music Video.mp3",
+    "Bill Withers - Lovely Day Official Audio.mp3",
+    "Billy Paul - Me and Mrs. Jones Official Audio.mp3",
+    "Funky Player.mp3",
+    "Christopher Cross - Sailing Remastered Official Lyric Video.mp3"
+  ];
+
+  // =======================================================
+  // Não precisa mexer abaixo desta linha
+  // =======================================================
+
+    const musicBtn    = document.getElementById('music-btn');
+    const btnText     = document.getElementById('btn-text');
+    const letter      = document.getElementById('letter');
+    const choiceBtns  = document.getElementById('choice-btns');
+    const pensBox     = document.getElementById('pensamentos-box');
+    const pensTexto   = document.getElementById('pensamento-texto');
+    const pensData    = document.getElementById('pensamento-data');
+    const pensCounter = document.getElementById('pensamento-counter');
+
+    const musicErro = document.getElementById('music-erro');
+
+    // Cria um áudio sem baixar nada até tocar; mostra aviso se o arquivo falhar
+    function criarAudio(src, loop = false) {
+      const a = new Audio();
+      a.preload = 'none';
+      a.loop = loop;
+      a.src = src;
+      a.addEventListener('error', () => {
+        musicErro.style.display = 'block';
+        musicBtn.classList.remove('playing');
+        btnText.textContent = 'Tocar';
+      });
+      return a;
+    }
+
+    const audioIntro = criarAudio("Billy Paul - Me and Mrs. Jones Official Audio.mp3", true);
+
+    function entrar() {
+      const entrada = document.getElementById('entrada');
+      entrada.classList.add('saindo');
+      setTimeout(() => entrada.style.display = 'none', 800);
+      audioIntro.play().catch(() => {});
+    }
+
+    function pararIntro() {
+      audioIntro.pause();
+      audioIntro.currentTime = 0;
+    }
+
+    // Ordena do mais recente para o mais antigo
+    PENSAMENTOS.textos.sort((a, b) => new Date(b.data) - new Date(a.data));
+
+    // Detecta datas duplicadas para decidir se mostra hora
+    const todasDatas = PENSAMENTOS.textos.map(t => new Date(t.data).toDateString());
+    const datasComHora = new Set(todasDatas.filter((d, i) => todasDatas.indexOf(d) !== i));
+
+    function formatarData(dataStr) {
+      const d = new Date(dataStr);
+      const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+      const base = `${d.getDate()} ${meses[d.getMonth()]} ${d.getFullYear()}`;
+      if (datasComHora.has(d.toDateString())) {
+        const h = String(d.getHours()).padStart(2,'0');
+        const m = String(d.getMinutes()).padStart(2,'0');
+        return `${base} · ${h}:${m}`;
+      }
+      return base;
+    }
+    const btnPrev     = document.getElementById('btn-prev');
+    const btnNext     = document.getElementById('btn-next');
+
+    const audios = CARTAS.map(c => criarAudio(c.musica, true));
+
+    // Playlist embaralhada para pensamentos
+    function embaralhar(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    let playlistAtual = embaralhar(PLAYLIST);
+    let playlistIndex = 0;
+    let audioP = null;
+
+    function tocarDaPlaylist(index) {
+      if (audioP) audioP.pause();
+      playlistIndex = index;
+      audioP = criarAudio(playlistAtual[playlistIndex]);
+      audioP.addEventListener('ended', proximaMusica);
+      return audioP.play();
+    }
+
+    function proximaMusica() {
+      const proximo = (playlistIndex + 1) % playlistAtual.length;
+      if (proximo === 0) playlistAtual = embaralhar(PLAYLIST);
+      tocarDaPlaylist(proximo).catch(() => {});
+    }
+
+    let currentIndex = -1;
+    let currentMode  = '';
+    let pensIndex    = 0;
+
+    // Partículas
     const container = document.getElementById('particles');
     for (let i = 0; i < 25; i++) {
       const p = document.createElement('div');
@@ -297,58 +653,141 @@
       p.style.left = Math.random() * 100 + '%';
       p.style.animationDuration = (8 + Math.random() * 12) + 's';
       p.style.animationDelay = (Math.random() * 15) + 's';
-      p.style.width = p.style.height = (2 + Math.random() * 4) + 'px';
+      const size = (2 + Math.random() * 4) + 'px';
+      p.style.width = p.style.height = size;
       p.style.opacity = (0.2 + Math.random() * 0.5).toString();
       container.appendChild(p);
     }
 
-    const audios  = [document.getElementById('audio1'), document.getElementById('audio2')];
-    const btn     = document.getElementById('music-btn');
-    const btnText = document.getElementById('btn-text');
-    const letter  = document.getElementById('letter');
-    const choiceBtns = document.getElementById('choice-btns');
+    // Monta botões das cartas
+    CARTAS.forEach((carta, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      btn.textContent = carta.nome;
+      btn.onclick = () => abrirCarta(i, btn);
+      choiceBtns.appendChild(btn);
+    });
 
-    let started = false;
-    let currentIndex = 0;
+    // Botão Rapidinhas com contador de novas
+    const totalRapidas = PENSAMENTOS.textos.length;
+    const vistasAntes  = parseInt(localStorage.getItem('rapidinhas_vistas') || '0');
+    const novas        = Math.max(0, totalRapidas - vistasAntes);
 
-    function currentAudio() { return audios[currentIndex]; }
+    const btnPens = document.createElement('button');
+    btnPens.className = 'btn-rapidinhas';
+    btnPens.innerHTML = '💌 Rapidinhas do Caixeiro' +
+      (novas > 0 ? `<span class="badge">${novas}</span>` : '');
+    btnPens.onclick = () => {
+      abrirPensamentos(btnPens);
+      localStorage.setItem('rapidinhas_vistas', totalRapidas);
+      const badge = btnPens.querySelector('.badge');
+      if (badge) badge.remove();
+    };
+    document.getElementById('btn-rapidinhas-wrap').appendChild(btnPens);
 
-    function toggleMusic() {
-      const audio = currentAudio();
-      if (audio.paused) {
-        audio.play().then(() => {
-          btn.classList.add('playing');
-          btnText.textContent = 'Pausar';
-          if (!started) {
-            started = true;
-            setTimeout(() => {
-              letter.classList.add('visible');
-              choiceBtns.classList.add('visible');
-            }, 400);
-          }
-        }).catch(() => {
-          btnText.textContent = 'Tente novamente';
-        });
+    function pararTudo() {
+      pararIntro();
+      audios.forEach(a => { a.pause(); a.currentTime = 0; });
+      if (audioP) { audioP.pause(); audioP.currentTime = 0; }
+      musicErro.style.display = 'none';
+      letter.style.display = 'none';
+      letter.classList.remove('visible');
+      pensBox.style.display = 'none';
+      pensBox.classList.remove('visible');
+      musicBtn.style.display = 'none';
+      document.querySelectorAll('.choice-btn, .btn-rapidinhas').forEach(b => b.classList.remove('active'));
+    }
+
+    function abrirCarta(index, btnEl) {
+      pararTudo();
+      currentIndex = index;
+      currentMode  = 'carta';
+      btnEl.classList.add('active');
+
+      const carta = CARTAS[index];
+
+      if (carta.imagem) {
+        letter.innerHTML = `<img src="${carta.imagem}" alt="${carta.nome}" class="carta-img" />`;
+      } else if (carta.texto) {
+        letter.innerHTML = carta.texto.trim().split(/\n\s*\n/).map(p =>
+          `<p>${p.trim().replace(/\n/g, '<br>')}</p>`
+        ).join('');
       } else {
-        audio.pause();
-        btn.classList.remove('playing');
-        btnText.textContent = 'Tocar Música';
+        letter.innerHTML = '';
+      }
+
+      letter.style.display = 'block';
+      setTimeout(() => letter.classList.add('visible'), 50);
+
+      musicBtn.style.display = 'flex';
+      musicBtn.classList.add('playing');
+      btnText.textContent = 'Pausar';
+      audios[index].play().catch(() => {
+        musicBtn.classList.remove('playing');
+        btnText.textContent = 'Tocar';
+      });
+    }
+
+    function abrirPensamentos(btnEl) {
+      pararTudo();
+      currentMode = 'pensamentos';
+      btnEl.classList.add('active');
+      pensIndex = 0;
+
+      pensBox.style.display = 'flex';
+      setTimeout(() => pensBox.classList.add('visible'), 50);
+      atualizarPensamento(false);
+
+      musicBtn.style.display = 'flex';
+      musicBtn.classList.add('playing');
+      btnText.textContent = 'Pausar';
+      playlistAtual = embaralhar(PLAYLIST);
+      tocarDaPlaylist(0).catch(() => {
+        musicBtn.classList.remove('playing');
+        btnText.textContent = 'Tocar';
+      });
+    }
+
+    function atualizarPensamento(animar) {
+      const total = PENSAMENTOS.textos.length;
+      pensCounter.textContent = `${pensIndex + 1} / ${total}`;
+      btnPrev.disabled = pensIndex === 0;
+      btnNext.disabled = pensIndex === total - 1;
+
+      const item = PENSAMENTOS.textos[pensIndex];
+
+      if (animar) {
+        pensTexto.classList.add('saindo');
+        setTimeout(() => {
+          pensTexto.innerHTML = item.texto.replace(/\n/g, '<br>');
+          pensData.textContent = formatarData(item.data);
+          pensTexto.classList.remove('saindo');
+        }, 400);
+      } else {
+        pensTexto.innerHTML = item.texto.replace(/\n/g, '<br>');
+        pensData.textContent = formatarData(item.data);
       }
     }
 
-    function showLetter(index, el) {
-      const wasPlaying = !currentAudio().paused;
+    function navegarPensamento(dir) {
+      const novo = pensIndex + dir;
+      if (novo < 0 || novo >= PENSAMENTOS.textos.length) return;
+      pensIndex = novo;
+      atualizarPensamento(true);
+      // A música continua tocando; a próxima entra só quando a atual terminar
+    }
 
-      audios.forEach(a => { a.pause(); a.currentTime = 0; });
-      currentIndex = index;
-
-      document.querySelectorAll('.letter-content').forEach(c => c.style.display = 'none');
-      document.getElementById('carta-' + index).style.display = 'block';
-      document.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('active'));
-      el.classList.add('active');
-
-      if (wasPlaying) {
-        currentAudio().play().catch(() => {});
+    function toggleMusic() {
+      const audio = currentMode === 'pensamentos' ? audioP : (audios[currentIndex] || null);
+      if (!audio) return;
+      if (audio.paused) {
+        audio.play().catch(() => {});
+        musicBtn.classList.add('playing');
+        btnText.textContent = 'Pausar';
+      } else {
+        audio.pause();
+        musicBtn.classList.remove('playing');
+        btnText.textContent = 'Tocar';
       }
     }
   </script>
